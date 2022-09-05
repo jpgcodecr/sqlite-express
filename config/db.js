@@ -19,9 +19,8 @@ knex.schema
     .then((exists) => {
       if (!exists) {
         return knex.schema.createTable('products', (table)  => {
-          table.increments('id').primary()
+          table.integer('code').primary()
           table.string('name')
-          table.integer('code')
           table.integer('price')
           table.integer('stock')
         })

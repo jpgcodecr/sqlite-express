@@ -44,16 +44,39 @@ exports.productsCreate = async (req, res) => {
     })
 }
 
+// Edit products
+exports.productsEdit = async (req, res) => {
+
+  const updatedElements = {};
+
+  if (req.body.name) { updatedElements.name = req.body.name };
+  if (req.body.price > -1) { updatedElements.price = req.body.price };
+  if (req.body.stock > -1) { updatedElements.stock = req.body.stock };
+
+  console.log(req.body);
+  console.log('updatedElements', updatedElements);
+
+  knex('products')
+    .where({code: req.body.code})
+    .update(updatedElements)
+    .then(() => {
+      res.json({ message: `Product ${req.body.code} updated.` })
+    })
+    .catch(err => {
+      res.json({ message: `There was an error updating ${req.body.code} Product: ${err}` })
+    })
+}
+
 // Remove products
 exports.productsDelete = async (req, res) => {
   knex('products')
-    .where('id', req.body.id)
+    .where('id', req.body.code)
     .del()
     .then(() => {
-      res.json({ message: `Product ${req.body.id} deleted.` })
+      res.json({ message: `Product ${req.body.code} deleted.` })
     })
     .catch(err => {
-      res.json({ message: `There was an error deleting ${req.body.id} Product: ${err}` })
+      res.json({ message: `There was an error deleting ${req.body.code} Product: ${err}` })
     })
 }
 
