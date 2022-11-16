@@ -19,10 +19,12 @@ knex.schema
     .then((exists) => {
       if (!exists) {
         return knex.schema.createTable('products', (table)  => {
-          table.integer('code').primary()
+          table.string('code').primary()
           table.string('name')
-          table.integer('price')
-          table.integer('stock')
+          table.string('unit')
+          table.string('barra')
+          table.decimal('price')
+          table.decimal('stock')
         })
         .then(() => {
           console.log('Table \'Products\' created')
